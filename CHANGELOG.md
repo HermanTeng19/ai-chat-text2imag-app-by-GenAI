@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - Add: CHANGELOG.md to track major changes.
 
+## [1.1.0] - 2024-05-11
+### Added
+- Text-to-image generation feature: users can type `/image your prompt` to generate and display images in chat.
+- Integrated Gemini 2.0 Flash Preview image generation API for real AI image responses.
+- Chat UI now supports image messages with captions and timestamps.
+
 ## [1.0.0] - 2024-05-11
 ### Added
 - Initial release of AI Chatbox Online with Next.js, TypeScript, and Tailwind CSS.

@@ -5,16 +5,22 @@ A modern, clean, and fully functional AI chat web application built with Next.js
 ## Features
 - Single-page chat interface
 - User and AI messages with avatars
-- Simulated AI responses (easy to connect to OpenAI API)
+- AI text responses (Gemini 2.0 Flash Preview API)
+- **Text-to-image generation**: Generate images from prompts using Gemini 2.0 Flash Preview
 - Responsive layout for mobile and desktop
 - Modular, atomic component design
 - Clean, readable UI with light theme
+
+## Usage
+- **Text chat:** Type your message and press Send.
+- **Image generation:** Type `/image your prompt here` (e.g., `/image a cat riding a skateboard in space`) and press Send. The AI will generate and display an image based on your prompt.
 
 ## Tech Stack
 - **Framework:** Next.js (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
 - **State Management:** React hooks (`useState`, `useEffect`)
+- **AI:** Gemini 2.0 Flash Preview API (text and image)
 
 ## Getting Started
 
@@ -45,7 +51,7 @@ ai-chat-app/
 ├── hooks/
 │   └── use-chat.ts        # Chat state logic
 ├── lib/
-│   └── ai.ts              # AI response logic
+│   └── ai.ts              # AI response logic (text & image)
 ├── public/
 │   └── avatar/
 │       ├── user.png       # User avatar (placeholder)
