@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Message } from '../types/message';
 import { Avatar } from './avatar';
 import { formatTimestamp } from '../utils/format-timestamp';
@@ -17,9 +17,18 @@ export type ChatMessageProps = {
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const isUser = message.sender === 'user';
+  const [hovered, setHovered] = useState(false);
 
   // Render image message
   if (message.type === 'image' && message.imageUrl) {
+    const handleDownload = () => {
+      const link = document.createElement('a');
+      link.href = message.imageUrl!;
+      link.download = `ai-image-${Date.now()}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
     return (
       <div className={`flex items-end mb-2 w-full ${isUser ? 'justify-end' : 'justify-start'}`}>
         {!isUser && <Avatar sender={message.sender} />}
@@ -27,10 +36,23 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.2, ease: 'easeOut' }}
-          className={`${isUser ? 'max-w-xs bg-blue-500 text-white ml-auto flex flex-row-reverse' : 'max-w-2xl bg-gray-100 text-gray-900 mr-auto'} rounded-lg px-6 py-4 shadow-md flex flex-col items-center`}
+          className={`${isUser ? 'max-w-xs bg-blue-500 text-white ml-auto flex flex-row-reverse' : 'max-w-2xl bg-gray-100 text-gray-900 mr-auto'} rounded-lg px-6 py-4 shadow-md flex flex-col items-center relative group`}
           style={{ textAlign: isUser ? 'right' : 'left' }}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
         >
-          <img src={message.imageUrl} alt={message.content} className="rounded-lg shadow-md max-w-full mb-2" />
+          <div className="relative w-full flex justify-center">
+            <img src={message.imageUrl} alt={message.content} className="rounded-lg shadow-md max-w-full mb-2" />
+            {hovered && (
+              <button
+                onClick={handleDownload}
+                className="absolute top-2 right-2 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-white rounded-full px-3 py-1 shadow-lg text-xs font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                aria-label="Download image"
+              >
+                Download
+              </button>
+            )}
+          </div>
           <div className="text-xs text-gray-500 mb-1 w-full break-words">{message.content}</div>
           <div className={`text-xs mt-1 w-full ${isUser ? 'text-blue-100 text-right' : 'text-gray-400 text-left'}`}>{formatTimestamp(message.timestamp)}</div>
         </motion.div>
