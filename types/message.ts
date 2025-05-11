@@ -3,4 +3,6 @@ export type Message = {
   sender: 'user' | 'ai';
   content: string;
   timestamp: number;
+  type?: 'text' | 'image';
+  imageUrl?: string;
 }; 

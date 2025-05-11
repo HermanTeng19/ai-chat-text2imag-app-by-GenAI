@@ -17,6 +17,29 @@ export type ChatMessageProps = {
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const isUser = message.sender === 'user';
+
+  // Render image message
+  if (message.type === 'image' && message.imageUrl) {
+    return (
+      <div className={`flex items-end mb-2 w-full ${isUser ? 'justify-end' : 'justify-start'}`}>
+        {!isUser && <Avatar sender={message.sender} />}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
+          className={`${isUser ? 'max-w-xs bg-blue-500 text-white ml-auto flex flex-row-reverse' : 'max-w-2xl bg-gray-100 text-gray-900 mr-auto'} rounded-lg px-6 py-4 shadow-md flex flex-col items-center`}
+          style={{ textAlign: isUser ? 'right' : 'left' }}
+        >
+          <img src={message.imageUrl} alt={message.content} className="rounded-lg shadow-md max-w-full mb-2" />
+          <div className="text-xs text-gray-500 mb-1 w-full break-words">{message.content}</div>
+          <div className={`text-xs mt-1 w-full ${isUser ? 'text-blue-100 text-right' : 'text-gray-400 text-left'}`}>{formatTimestamp(message.timestamp)}</div>
+        </motion.div>
+        {isUser && <Avatar sender={message.sender} />}
+      </div>
+    );
+  }
+
+  // Render text/markdown message as before
   return (
     <div
       className={`flex items-end mb-2 w-full ${isUser ? 'justify-end' : 'justify-start'}`}

@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Message } from '../types/message';
-import { getAIResponse } from '../lib/ai';
+import { getAIResponse, getImageFromPrompt } from '../lib/ai';
 
 /**
  * Custom hook to manage chat messages and handle sending/receiving.
@@ -12,25 +12,41 @@ export function useChat() {
   const [isLoading, setIsLoading] = useState(false);
 
   /**
-   * Sends a user message and triggers an AI response.
+   * Sends a user message and triggers an AI or image response.
    * @param content - The user's message content.
    */
   const sendMessage = async (content: string) => {
+    const isImagePrompt = content.trim().toLowerCase().startsWith('/image ');
     const userMessage: Message = {
       sender: 'user',
       content,
       timestamp: Date.now(),
+      type: isImagePrompt ? 'image' : 'text',
     };
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
     try {
-      const aiContent = await getAIResponse(content);
-      const aiMessage: Message = {
-        sender: 'ai',
-        content: aiContent,
-        timestamp: Date.now(),
-      };
-      setMessages((prev) => [...prev, aiMessage]);
+      if (isImagePrompt) {
+        const prompt = content.replace(/^\/image\s+/i, '').trim();
+        const imageUrl = await getImageFromPrompt(prompt);
+        const aiMessage: Message = {
+          sender: 'ai',
+          content: prompt,
+          timestamp: Date.now(),
+          type: 'image',
+          imageUrl,
+        };
+        setMessages((prev) => [...prev, aiMessage]);
+      } else {
+        const aiContent = await getAIResponse(content);
+        const aiMessage: Message = {
+          sender: 'ai',
+          content: aiContent,
+          timestamp: Date.now(),
+          type: 'text',
+        };
+        setMessages((prev) => [...prev, aiMessage]);
+      }
     } finally {
       setIsLoading(false);
     }
