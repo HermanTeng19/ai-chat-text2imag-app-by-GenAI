@@ -70,3 +70,31 @@ ai-chat-app/
 
 ## License
 MIT
+
+## Troubleshooting: Firebase Storage CORS
+
+If you encounter issues with image uploads or downloads (e.g., CORS errors), follow these steps:
+
+1. **Enable Firebase Storage:**
+   - Go to the [Firebase Console](https://console.firebase.google.com/), select your project, and enable Storage if not already enabled.
+2. **Find your bucket name:**
+   - The bucket name is usually `your-project-id.appspot.com` (e.g., `aichatapp-text-text2imag.appspot.com`).
+   - You can find it at the top of the Storage page in the Firebase Console.
+3. **Set CORS policy:**
+   - Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) if you haven't already.
+   - Run:
+     ```sh
+     gsutil cors set cors.json gs://your-project-id.appspot.com
+     ```
+   - Example for this project:
+     ```sh
+     gsutil cors set cors.json gs://aichatapp-text-text2imag.appspot.com
+     ```
+4. **Common errors:**
+   - `NotFoundException: 404 The specified bucket does not exist.`
+     - Make sure Storage is enabled and the bucket name is correct.
+     - Set your gcloud project: `gcloud config set project aichatapp-text-text2imag`
+   - CORS errors in the browser:
+     - Double-check your `cors.json` origins and methods.
+
+For more help, see the Firebase and Google Cloud documentation.

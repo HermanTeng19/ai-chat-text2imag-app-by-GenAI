@@ -33,7 +33,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend, loading }) => {
     >
       <input
         type="text"
-        className="flex-1 rounded-full border-2 border-blue-300 bg-white px-5 py-3 shadow focus:outline-none focus:ring-2 focus:ring-pink-400 text-base transition-all duration-200"
+        className="flex-1 rounded-full border-2 border-blue-300 bg-white px-5 py-3 shadow focus:outline-none focus:ring-2 focus:ring-pink-400 text-base transition-all duration-200 text-gray-900 placeholder-gray-500"
         placeholder="Type your message or type /image prompt for image generation"
         value={input}
         onChange={(e) => setInput(e.target.value)}

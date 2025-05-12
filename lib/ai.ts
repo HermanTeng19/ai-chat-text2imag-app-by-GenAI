@@ -1,4 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { storage } from './firebase';
+import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 
 /**
  * Calls the Gemini API to get an AI response for a given prompt.
@@ -22,11 +24,12 @@ export async function getAIResponse(prompt: string): Promise<string> {
 }
 
 /**
- * Calls the Gemini 2.0 Flash Preview API to generate an image from a prompt.
+ * Calls the Gemini 2.0 Flash Preview API to generate an image from a prompt, uploads to Firebase Storage, and returns the download URL.
  * @param prompt - The user's image prompt.
- * @returns Image data URL string.
+ * @param userId - The current user's UID (for storage path).
+ * @returns Image download URL string.
  */
-export async function getImageFromPrompt(prompt: string): Promise<string> {
+export async function getImageFromPrompt(prompt: string, userId?: string | null): Promise<string> {
   const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
   if (!apiKey) {
     return "[Error: Gemini API key is missing. Set NEXT_PUBLIC_GEMINI_API_KEY in your .env file.]";
@@ -49,8 +52,13 @@ export async function getImageFromPrompt(prompt: string): Promise<string> {
     const parts = data?.candidates?.[0]?.content?.parts || [];
     const imagePart = parts.find((part: any) => part.inlineData && part.inlineData.data);
     if (imagePart && imagePart.inlineData && imagePart.inlineData.data) {
-      // Return as data URL
-      return `data:image/png;base64,${imagePart.inlineData.data}`;
+      // Upload to Firebase Storage and return download URL
+      const base64Image = `data:image/png;base64,${imagePart.inlineData.data}`;
+      if (!userId) return '[Error: User not authenticated for image upload]';
+      const imageRef = ref(storage, `user-images/${userId}/${Date.now()}.png`);
+      await uploadString(imageRef, base64Image, 'data_url');
+      const downloadURL = await getDownloadURL(imageRef);
+      return downloadURL;
     }
     return '[Error: No image data returned from Gemini API]';
   } catch (err) {

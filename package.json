@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@firebase/storage": "^0.13.8",
     "@google/generative-ai": "^0.24.1",
+    "firebase": "^11.7.1",
     "framer-motion": "^12.10.5",
     "next": "15.3.2",
     "react": "^19.0.0",

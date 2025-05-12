@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 - Add: CHANGELOG.md to track major changes.
+- Docs: Add troubleshooting section to README for Firebase Storage CORS setup, including steps for enabling Storage, finding the bucket name, and setting CORS with gsutil.
+- Docs: Document common errors (e.g., NotFoundException: 404 The specified bucket does not exist) and solutions for Firebase Storage setup.
 
 ## [1.1.0] - 2024-05-11
 ### Added
