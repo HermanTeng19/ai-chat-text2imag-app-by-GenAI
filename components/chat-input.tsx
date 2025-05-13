@@ -31,14 +31,19 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend, loading }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
     >
-      <input
-        type="text"
-        className="flex-1 rounded-full border-2 border-blue-300 bg-white px-5 py-3 shadow focus:outline-none focus:ring-2 focus:ring-pink-400 text-base transition-all duration-200 text-gray-900 placeholder-gray-500"
+      <textarea
+        className="flex-1 rounded-full border-2 border-blue-300 bg-white px-5 py-3 shadow focus:outline-none focus:ring-2 focus:ring-pink-400 text-base transition-all duration-200 text-gray-900 placeholder-gray-500 resize-none min-h-[48px] max-h-40 overflow-auto"
         placeholder="Type your message or type /image prompt for image generation"
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        onInput={e => {
+          const target = e.target as HTMLTextAreaElement;
+          target.style.height = 'auto';
+          target.style.height = target.scrollHeight + 'px';
+        }}
         disabled={loading}
         autoFocus
+        rows={1}
       />
       <motion.button
         type="submit"

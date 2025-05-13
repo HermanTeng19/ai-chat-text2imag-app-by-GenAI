@@ -21,13 +21,21 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
 
   // Render image message
   if (message.type === 'image' && message.imageUrl) {
-    const handleDownload = () => {
-      const link = document.createElement('a');
-      link.href = message.imageUrl!;
-      link.download = `ai-image-${Date.now()}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    const handleDownload = async () => {
+      try {
+        const response = await fetch(message.imageUrl!);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `ai-image-${Date.now()}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } catch (err) {
+        alert('Failed to download image. Please try again.');
+      }
     };
     return (
       <div className={`flex items-end mb-2 w-full ${isUser ? 'justify-end' : 'justify-start'}`}>

@@ -7,12 +7,13 @@ A modern, clean, and fully functional AI chat web application built with Next.js
 - User and AI messages with avatars
 - AI text responses (Gemini 2.0 Flash Preview API)
 - **Text-to-image generation**: Generate images from prompts using Gemini 2.0 Flash Preview
+- Multi-line, auto-resizing chat input box for long prompts
 - Responsive layout for mobile and desktop
 - Modular, atomic component design
 - Clean, readable UI with light theme
 
 ## Usage
-- **Text chat:** Type your message and press Send.
+- **Text chat:** Type your message (the input box supports multi-line and auto-resizes for long prompts) and press Send.
 - **Image generation:** Type `/image your prompt here` (e.g., `/image a cat riding a skateboard in space`) and press Send. The AI will generate and display an image based on your prompt.
 
 ## Tech Stack
