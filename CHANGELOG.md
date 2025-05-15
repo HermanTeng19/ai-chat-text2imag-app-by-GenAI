@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 - Docs: Add troubleshooting section to README for Firebase Storage CORS setup, including steps for enabling Storage, finding the bucket name, and setting CORS with gsutil.
 - Docs: Document common errors (e.g., NotFoundException: 404 The specified bucket does not exist) and solutions for Firebase Storage setup.
 - Feat: Make chat input box multi-line and auto-resizing for long prompts.
+- Chore: Update cors.json to include deployed domain (https://chat.aibytes.dpdns.org) for CORS support.
+- Docs: Add troubleshooting notes to README for CORS and Firebase Auth (Google login) domain configuration.
 
 ## [1.1.0] - 2024-05-11
 ### Added

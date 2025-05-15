@@ -74,7 +74,7 @@ MIT
 
 ## Troubleshooting: Firebase Storage CORS
 
-If you encounter issues with image uploads or downloads (e.g., CORS errors), follow these steps:
+If you encounter issues with image uploads or downloads (e.g., CORS errors), or Google login issues, follow these steps:
 
 1. **Enable Firebase Storage:**
    - Go to the [Firebase Console](https://console.firebase.google.com/), select your project, and enable Storage if not already enabled.
@@ -97,5 +97,24 @@ If you encounter issues with image uploads or downloads (e.g., CORS errors), fol
      - Set your gcloud project: `gcloud config set project aichatapp-text-text2imag`
    - CORS errors in the browser:
      - Double-check your `cors.json` origins and methods.
+5. **Update CORS for deployed domain:**
+   - Make sure your `cors.json` includes your deployed domain:
+     ```json
+     [
+       {
+         "origin": [
+           "http://localhost:3000",
+           "https://chat.aibytes.dpdns.org"
+         ],
+         "method": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+         "maxAgeSeconds": 3600,
+         "responseHeader": ["Content-Type", "Authorization"]
+       }
+     ]
+     ```
+6. **Firebase Auth (Google login) troubleshooting:**
+   - If you see `auth/unauthorized-domain` or similar errors when using Google login, add your deployed domain (e.g., `chat.aibytes.dpdns.org`) to the Firebase Console:
+     - Go to Authentication > Settings > Authorized domains, and add your domain.
+   - This is required for Google sign-in to work on your custom domain.
 
 For more help, see the Firebase and Google Cloud documentation.
