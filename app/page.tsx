@@ -6,6 +6,7 @@ import { ChatInput } from '../components/chat-input';
 import { useChat } from '../hooks/use-chat';
 import { useAuth } from '../hooks/useAuth';
 import { AuthForm } from '../components/AuthForm';
+import { motion } from 'framer-motion';
 
 /**
  * Main chat page for the AI Chatbox app with authentication.
@@ -22,6 +23,14 @@ export default function Page() {
   if (!user) {
     return (
       <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400 py-8 px-2">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+          className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-400 bg-clip-text text-transparent drop-shadow-lg tracking-tight font-sans mb-8 text-center"
+        >
+          AI Bytes Chat
+        </motion.h1>
         <AuthForm
           mode={mode}
           onLogin={login}
